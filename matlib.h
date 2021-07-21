@@ -1,39 +1,63 @@
+//#ifdef H_MATLIB
+//#define H_MATLIB
+
+//namespace Matlib?
 
 class matrix
 {
     private:
-        int n,m = 1; //matrix is n by m
+        int n,m = 1; //n in numer of rows, m is number of columns
 
     public:
-        float elements[];
+        float** elements;
 
         //Constructors
         matrix()
         {
-            //initialize to be scalar zero
+            elements = new float* [1];
+            elements[0] = new float [1];
+            elements[0][0] = 0;
         }
         matrix(int height, int width)
         {
-            this->n = height;
-            this->m = width;
-            //initialize array elements to be zero
-        }
-        matrix(float* elements)
-        {
-            //initialize with 2d array as input and get the dimensions that way
+            n = height;
+            m = width;
+            
+            elements = new float* [n];
+            for(int i = 0; i < n; i++)
+            {
+                elements[i] = new float [m];
+                for(int j = 0; j < m; j++)
+                {
+                    elements[i][j] = 0;
+                }
+            }
         }
 
         //Destructor
         ~matrix()
         {
-            //delete new things
+            for(int i = 0; i < n; i++)
+            {
+                delete [] elements[i];
+            }
+            delete [] elements;
         }
 
         //Member Functions
+        matrix size()
+        {
+            matrix siz(1,2);
+            siz.elements[0][0] = n;
+            siz.elements[0][1] = m;
+            return(siz);
+        }
         //void resize(int n, int m)
-        //matrix size()
         //matrix Transpose()
-        //
+
+
+        //Operator Overloading
+
 
 };
 
