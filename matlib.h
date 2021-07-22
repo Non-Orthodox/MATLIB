@@ -16,127 +16,47 @@ class matrix
         int offset[2] = {0,0};
 
     //Constructors
-        matrix()
-        {
-            elements = new float* [1];
-            elements[0] = new float [1];
-            elements[0][0] = 0;
-        }
-        matrix(int height, int width)
-        {
-            //make sure to check if dimensions are positive numbers
-            n = height;
-            m = width;
-            
-            elements = new float* [n];
-            for(int i = 0; i < n; i++)
-            {
-                elements[i] = new float [m];
-                for(int j = 0; j < m; j++)
-                {
-                    elements[i][j] = 0;
-                }
-            }
-        }
-
+        matrix();
+        matrix(int,int);
 
     //Destructor
-        ~matrix()
-        {
-            for(int i = 0; i < n; i++)
-            {
-                delete [] elements[i];
-            }
-            delete [] elements;
-        }
-
+        ~matrix();
 
     //Member Functions
-        //Returns element (r,c) as a float
-        float at(int r, int c)
-        {
-            return(elements[r][c]);
-        }
-        
-        //Returns size of matrix, as a 1x2 matrix representing [n m]
-        matrix size()
-        {
-            matrix siz(1,2);
-            siz.elements[0][0] = n;
-            siz.elements[0][1] = m;
-            return(siz);
-        }
-
-        //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0. 
-        void resize(int rows, int cols)
-        {
-            matrix temp(rows,cols);
-            
-            //Copy all relevant elements to new matrix 
-            for(int i = 0; (i < n) && (i < rows); i++)
-            {
-                for(int j = 0; (j < m) && (j < cols); j++)
-                {
-                    temp.elements[i][j] = elements[i][j];
-                }
-            }
-            
-            //Delete old pointers
-            for(int k = 0; k < n; k++)
-            {
-                delete [] elements[k];
-            }
-            delete [] elements;
-
-            //Set new sizes
-            n = rows;
-            m = cols;
-
-            elements = temp.elements;
-            for(int l = 0; l < n; l++)
-            {
-                elements[l] = temp.elements[l];
-            }
-        }
-
+        float at(int, int);
+        matrix size();
+        void resize(int, int);
         //matrix push_back(matrix m)
         //matrix T()
         //matrix inv()
         //eig()
-        //print elements
+        //std_print
 
 
     //Operator Overloading
-        matrix & operator=(const matrix &mat)
-        {
+        // matrix & operator=(const matrix &mat)
+        // {
             
-            for(int i = 0; i < n; i++)
-            {
-                for(int j = 0; j < m; j++)
-                {
+        //     for(int i = 0; i < n; i++)
+        //     {
+        //         for(int j = 0; j < m; j++)
+        //         {
 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
-        matrix & operator()(int a, int b)
-        {
-            if((a>=0)&&(b>=0)&&(a<n)&&(b<m))
-            {
+        // matrix & operator()(int a, int b)
+        // {
+        //     if((a>=0)&&(b>=0)&&(a<n)&&(b<m))
+        //     {
 
-            }
-        }
-
-};
-
-//submatrix class used to assign portions of matrices
-class submatrix
-{
+        //     }
+        // }
 
 };
 
-
-matrix rref(matrix*);
+//matrix rref(matrix*);
 
 
 /*
