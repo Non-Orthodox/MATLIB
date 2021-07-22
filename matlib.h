@@ -1,4 +1,4 @@
-#ifdef H_MATLIB
+#ifndef H_MATLIB
 #define H_MATLIB
 
 //namespace Matlib?
@@ -103,6 +103,7 @@ class matrix
         //matrix T()
         //matrix inv()
         //eig()
+        //print elements
 
 
     //Operator Overloading
