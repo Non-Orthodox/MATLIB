@@ -3,23 +3,26 @@
 
 int main()
 {
-    matrix mat;
-    mat.elements[0][0] = 500.6;
+    matrix mat(3,3);
+    mat.elements[1][0] = 10;
+    mat.elements[0][1] = 1;
+    mat.elements[1][1] = 11;
+    mat.elements[2][1] = 21;
+    mat.elements[1][2] = 12;
+    mat.elements[2][0] = 20;
+    mat.elements[0][2] = 2;
+    mat.elements[2][2] = 22;
+    mat.std_print();
 
-    mat.resize(2,2);
-    std::cout << mat.at(0,0) << " " << mat.at(0,1) << " " << mat.at(1,0) << " " << mat.at(1,1) << std::endl;
+    matrix mat2;
+    mat2 = mat;
+    mat2.std_print();
 
-    matrix siz(1,2);
-    siz = mat.size();
-
-    //std::cout << "size is: " << siz.at(0,0) << " " << siz.at(0,1) << std::endl;
-
-    for(int i = 0; i < 2; i++)
-    {
-        mat.elements[i][i] = 1.0;
-        //std::cout << "stuff" << std::endl; //does not print right now
-        //std::cout << mat.elements[i][0] << " " << mat.elements[i][1] << std::endl;
-    }
+    //This section does not work
+    matrix transpose;
+    transpose = mat.T();
+    std::cout << "set transpose" << std::endl; //does not run this line
+    transpose.std_print();
 
     return 0;
 }

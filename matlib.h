@@ -6,14 +6,13 @@
 class matrix
 {
     private:
-        int n,m = 1; //n in numer of rows, m is number of columns
+        int n; //number of rows
+        int m; //number of columns
 
     public:
     //Variable Members
         //Matrix element values
         float** elements;
-        //Experimental, used to possibly modify the process of copying portions of matrices
-        int offset[2] = {0,0};
 
     //Constructors
         matrix();
@@ -26,25 +25,16 @@ class matrix
         float at(int, int);
         matrix size();
         void resize(int, int);
+        matrix T();
+        void setT();
+        void std_print();
         //matrix push_back(matrix m)
-        //matrix T()
         //matrix inv()
         //eig()
-        //std_print
 
 
     //Operator Overloading
-        // matrix & operator=(const matrix &mat)
-        // {
-            
-        //     for(int i = 0; i < n; i++)
-        //     {
-        //         for(int j = 0; j < m; j++)
-        //         {
-
-        //         }
-        //     }
-        // }
+        matrix & operator=(const matrix &);
 
         // matrix & operator()(int a, int b)
         // {

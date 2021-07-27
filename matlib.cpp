@@ -38,6 +38,43 @@
     }
 
 
+//Operators
+
+    //Assignmet Operator
+    //NOT YET TESTED
+    matrix & matrix::operator=(const matrix &mat)
+    {
+        //Check for self-assignment
+        if(this == &mat)
+            return *this;
+        
+        //De-allocate memory
+        for(int k = 0; k < n; k++)
+        {
+            delete [] elements[k];
+        }
+        delete [] elements;
+
+        //Change dimensions
+        n = mat.n;
+        m = mat.m;
+
+        //Re-allocate memory and copy information of mat
+        elements = new float* [n];
+        for(int i = 0; i < n; i++)
+        {
+            elements[i] = new float [m];
+            for(int j = 0; j < m; j++)
+            {
+                elements[i][j] = mat.elements[i][j];
+            }
+        }
+
+        //Return left object to support operator chaining
+        return *this;
+    }
+
+
 //Member Functions
 
     //Returns element (r,c) as a float
@@ -56,6 +93,7 @@
     }
 
     //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0.
+    //NOT YET FIXED
     void matrix::resize(int rows, int cols)
     {
         matrix temp(rows,cols);
@@ -85,4 +123,42 @@
         
         //Set elements
         elements = temp.elements;
+    }
+
+    //Returns the transpose of a matrix
+    //NOT YET FIXED
+    matrix matrix::T()
+    {
+        matrix tp(m,n);
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                tp.elements[i][j] = elements[j][i];
+            }
+        }
+        return(tp);
+    }
+
+    //Sets the matrix to be its transpose
+    //NOT YET TESTED
+    void matrix::setT()
+    {
+        
+    }
+
+    //Print matrix in console
+    //NOT YET TESTED
+    void matrix::std_print()
+    {
+        for(int i = 0; i < n; i++)
+        {
+            std::cout << "[ ";
+            for(int j = 0; j < m; j++)
+            {
+                std::cout << elements[i][j] << " ";
+            }
+            std::cout << "]" << std::endl;
+        }
+        std::cout << std::endl;
     }
