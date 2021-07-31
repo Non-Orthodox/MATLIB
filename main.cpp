@@ -18,7 +18,6 @@ int main()
     // mat2 = mat;
     // mat2.std_print();
 
-    //This section does not work
     matrix transpose;
     transpose = mat.T();
     transpose.std_print();

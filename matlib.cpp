@@ -93,7 +93,6 @@
     }
 
     //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0.
-    //NOT YET FIXED
     void matrix::resize(int rows, int cols)
     {
         matrix* temp = new matrix(rows,cols);
@@ -123,7 +122,6 @@
     }
 
     //Returns the transpose of a matrix
-    //NOT YET FIXED
     matrix matrix::T()
     {
         matrix* tp = new matrix(m,n);
@@ -146,7 +144,6 @@
     }
 
     //Print matrix in console
-    //NOT YET TESTED
     void matrix::std_print()
     {
         for(int i = 0; i < n; i++)
