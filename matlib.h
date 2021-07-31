@@ -17,6 +17,7 @@ class matrix
     //Constructors
         matrix();
         matrix(int,int);
+        matrix(const matrix &);
 
     //Destructor
         ~matrix();
@@ -28,13 +29,18 @@ class matrix
         matrix T();
         void setT();
         void std_print();
+        //vector-wise addition
         //matrix push_back(matrix m)
         //matrix inv()
         //eig()
 
 
     //Operator Overloading
-        matrix & operator=(const matrix &);
+        matrix& operator=(const matrix &);
+        matrix& operator+=(const matrix &);
+        matrix& operator-=(const matrix &);
+        const matrix& operator+(const matrix &)  const;
+        const matrix& operator-(const matrix &)  const;
 
         // matrix & operator()(int a, int b)
         // {
@@ -54,16 +60,16 @@ Things I want this to do:
 
 matrix:
     operators:
-        * multiplication
-        + addition
+        * multiplication (scalar and matrix)
+        + addition (scalar and matrix)
         - subtraction
         / division
         () obtain elements, account for scenarios where you have ':' char
         ^ exponent
         == logic equal
-        transpose? (not sure if operator or function)
 
     funtions:
+        inverse
         determinate
         rref
         QR factorize
@@ -72,11 +78,8 @@ matrix:
         
 
 
--set size upon creation
--child class: identity matrix, vector
 -be able to return vectors such as matrix(:,1)
 
-
-
 */
+
 #endif

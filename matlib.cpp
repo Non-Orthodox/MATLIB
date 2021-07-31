@@ -27,6 +27,22 @@
         }
     }
 
+    matrix::matrix(const matrix &mat)
+    {
+        n = mat.n;
+        m = mat.m;
+
+        elements = new float* [n];
+        for(int i = 0; i < n; i++)
+        {
+            elements[i] = new float [m];
+            for(int j = 0; j < m; j++)
+            {
+                elements[i][j] = mat.elements[i][j];
+            }
+        }
+    }
+
 
 //Destructor
     matrix::~matrix()
@@ -42,7 +58,7 @@
 //Operators
 
     //Assignmet Operator
-    matrix & matrix::operator=(const matrix &mat)
+    matrix& matrix::operator=(const matrix &mat)
     {
         //Check for self-assignment
         if(this == &mat)
@@ -72,6 +88,58 @@
 
         //Return left object to support operator chaining
         return *this;
+    }
+
+    //Compound Assignment +=
+    matrix& matrix::operator+=(const matrix &mat)
+    {
+        //For now, both matrices must be the same size, otherwise do not change the matrix
+        if((this->n != mat.n) || (this->m != mat.m)){
+            std::cout << "matrix addition error: dimensions incompatible" << std::endl << std::endl;
+            return *this;
+        } 
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] += mat.elements[i][j];
+            }
+        }
+        return *this;
+    }
+
+    //Compound Assignment -=
+    matrix& matrix::operator-=(const matrix &mat)
+    {
+        //For now, both matrices must be the same size, otherwise do not change the matrix
+        if((this->n != mat.n) || (this->m != mat.m)){
+            std::cout << "matrix subtraction error: dimensions incompatible" << std::endl << std::endl;
+            return *this;
+        } 
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] -= mat.elements[i][j];
+            }
+        }
+        return *this;
+    }
+
+    //Binary Arithmetic +
+    const matrix& matrix::operator+(const matrix &mat) const
+    {
+        matrix* result = new matrix;
+        *result = *this;
+        *result += mat;
+        return *result;
+    }
+
+    //Binary Arithmetic -
+    const matrix& matrix::operator-(const matrix &mat) const
+    {
+        matrix* result = new matrix;
+        *result = *this;
+        *result -= mat;
+        return *result;
     }
 
 
@@ -137,10 +205,18 @@
     }
 
     //Sets the matrix to be its transpose
-    //NOT YET TESTED
     void matrix::setT()
     {
-        
+        matrix* tp = new matrix(m,n);
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                tp->elements[i][j] = elements[j][i];
+            }
+        }
+        *this = *tp;
+        delete tp;
     }
 
     //Print matrix in console

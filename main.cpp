@@ -15,21 +15,13 @@ int main()
     mat.elements[2][2] = 22;
     mat.std_print();
 
-    matrix mat2;
-    mat2 = mat;
-    mat2.std_print();
+    matrix mat2 = mat;
+    
+    mat += mat;
+    mat.std_print();
 
-    matrix transpose;
-    transpose = mat.T();
-    transpose.std_print();
-    transpose.resize(4,4);
-    transpose.std_print();
-
-    mat2 = transpose;
-    mat2.std_print();
-
-    matrix size = mat2.size();
-    size.std_print();
+    mat = mat - mat;
+    mat.std_print();
 
     return 0;
 }
