@@ -96,18 +96,15 @@
     //NOT YET FIXED
     void matrix::resize(int rows, int cols)
     {
-        matrix temp(rows,cols);
+        matrix* temp = new matrix(rows,cols);
 
         //Copy all relevant elements to new matrix 
         for(int i = 0; (i < n) && (i < rows); i++)
         {
             for(int j = 0; (j < m) && (j < cols); j++)
             {
-                temp.elements[i][j] = elements[i][j];
-
-                std::cout << temp.elements[i][j] << " "; //TEMP
+                temp->elements[i][j] = elements[i][j];
             }
-            std::cout << std::endl; //TEMP
         }
         
         //Delete old pointers
@@ -122,22 +119,23 @@
         m = cols;
         
         //Set elements
-        elements = temp.elements;
+        elements = temp->elements;
     }
 
     //Returns the transpose of a matrix
     //NOT YET FIXED
     matrix matrix::T()
     {
-        matrix tp(m,n);
+        matrix* tp = new matrix(m,n);
         for(int i = 0; i < m; i++)
         {
             for(int j = 0; j < n; j++)
             {
-                tp.elements[i][j] = elements[j][i];
+                tp->elements[i][j] = elements[j][i];
             }
         }
-        return(tp);
+        return(*tp);
+        delete tp;
     }
 
     //Sets the matrix to be its transpose

@@ -14,14 +14,15 @@ int main()
     mat.elements[2][2] = 22;
     mat.std_print();
 
-    matrix mat2;
-    mat2 = mat;
-    mat2.std_print();
+    // matrix mat2;
+    // mat2 = mat;
+    // mat2.std_print();
 
     //This section does not work
     matrix transpose;
     transpose = mat.T();
-    std::cout << "set transpose" << std::endl; //does not run this line
+    transpose.std_print();
+    transpose.resize(4,4);
     transpose.std_print();
 
     return 0;
