@@ -124,6 +124,13 @@
         return *this;
     }
 
+    //Compound Assignment *=
+    matrix& matrix::operator*=(const matrix &mat)
+    {
+        *this = *this * mat;
+        return *this;
+    }
+
     //Binary Arithmetic +
     const matrix& matrix::operator+(const matrix &mat) const
     {
@@ -139,6 +146,27 @@
         matrix* result = new matrix;
         *result = *this;
         *result -= mat;
+        return *result;
+    }
+
+    //Binary Arithmetic *
+    const matrix& matrix::operator*(const matrix &mat) const
+    {
+        if(this->m != mat.n){
+            std::cout << "matrix multiplication error: dimensions incompatible" << std::endl;
+            return *this;
+        }
+
+        matrix* result = new matrix(this->n,mat.m);
+
+        for(int i = 0; i < this->n; i++){
+            for(int j = 0; j < mat.m; j++){
+                for(int k = 0; k < this->m; k++){
+                    result->elements[i][j] += (this->elements[i][k] * mat.elements[k][j]);
+                }
+            }
+        }
+
         return *result;
     }
 
@@ -158,6 +186,18 @@
         siz->elements[0][0] = n;
         siz->elements[0][1] = m;
         return(*siz);
+    }
+
+    //Returns dimension n or m of matrix, depending on if dim is 1 or 2, respectively. Returns 0 otherwise.
+    int matrix::size(int dim)
+    {
+        if(dim == 1){
+            return n;
+        }
+        if(dim == 2){
+            return m;
+        }
+        return 0;
     }
 
     //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0.

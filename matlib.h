@@ -25,9 +25,13 @@ class matrix
     //Member Functions
         float at(int, int);
         matrix size();
+        int size(int);
         void resize(int, int);
+        //void resize(int,int,float); //float is default value for new elements
         matrix T();
         void setT();
+        //void zeros();
+        //void ones();
         void std_print();
         //vector-wise addition
         //matrix push_back(matrix m)
@@ -39,8 +43,10 @@ class matrix
         matrix& operator=(const matrix &);
         matrix& operator+=(const matrix &);
         matrix& operator-=(const matrix &);
-        const matrix& operator+(const matrix &)  const;
-        const matrix& operator-(const matrix &)  const;
+        matrix& operator*=(const matrix &);
+        const matrix& operator+(const matrix &) const;
+        const matrix& operator-(const matrix &) const;
+        const matrix& operator*(const matrix &) const;
 
         // matrix & operator()(int a, int b)
         // {
