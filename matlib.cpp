@@ -4,6 +4,7 @@
 //Constructors
     matrix::matrix()
     {
+        n = m = 1;
         elements = new float* [1];
         elements[0] = new float [1];
         elements[0][0] = 0;
@@ -41,7 +42,6 @@
 //Operators
 
     //Assignmet Operator
-    //NOT YET TESTED
     matrix & matrix::operator=(const matrix &mat)
     {
         //Check for self-assignment
@@ -86,10 +86,10 @@
     //Returns size of matrix, as a 1x2 matrix representing [n m]
     matrix matrix::size()
     {
-        matrix siz(1,2);
-        siz.elements[0][0] = n;
-        siz.elements[0][1] = m;
-        return(siz);
+        matrix* siz = new matrix(1,2);
+        siz->elements[0][0] = n;
+        siz->elements[0][1] = m;
+        return(*siz);
     }
 
     //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0.
