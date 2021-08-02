@@ -1,6 +1,8 @@
 #ifndef H_MATLIB
 #define H_MATLIB
 
+#include <string>
+
 //namespace Matlib?
 
 class matrix
@@ -12,7 +14,7 @@ class matrix
     public:
     //Variable Members
         //Matrix element values
-        float** elements;
+        float** elements; //IMPORTANT: make this private when alternative method of editing elements is produced 
 
     //Constructors
         matrix();
@@ -41,25 +43,22 @@ class matrix
 
     //Operator Overloading
         matrix& operator=(const matrix &);
+        //matrix& operator=(const std::string &);
+        //matrix& operator=(const float);
         matrix& operator+=(const matrix &);
         matrix& operator-=(const matrix &);
         matrix& operator*=(const matrix &);
+        //matrix& operator/=(const matrix &);
         const matrix& operator+(const matrix &) const;
         const matrix& operator-(const matrix &) const;
         const matrix& operator*(const matrix &) const;
-
-        // matrix & operator()(int a, int b)
-        // {
-        //     if((a>=0)&&(b>=0)&&(a<n)&&(b<m))
-        //     {
-
-        //     }
-        // }
-
+        //const matrix& operator/(const matrix &) const;
+        //matrix& operator()(int, int);
+        //matrix& operator()(char,int);
+        //matrix& operator()(int,char);
+        bool operator==(const matrix &) const;
+        bool operator!=(const matrix &) const;
 };
-
-//matrix rref(matrix*);
-
 
 /*
 Things I want this to do:
@@ -81,6 +80,7 @@ matrix:
         QR factorize
         cholesky square root
         row swap
+        orthogonal matrix
         
 
 

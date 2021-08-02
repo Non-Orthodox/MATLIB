@@ -1,5 +1,6 @@
 #include "matlib.h"
 #include <iostream>
+#include <string>
 
 //Constructors
     matrix::matrix()
@@ -90,6 +91,8 @@
         return *this;
     }
 
+    //matrix& matrix::operator=(const std::string &str);
+
     //Compound Assignment +=
     matrix& matrix::operator+=(const matrix &mat)
     {
@@ -170,12 +173,39 @@
         return *result;
     }
 
+    //Logical Comparison ==
+    bool matrix::operator==(const matrix &mat) const
+    {
+        if((this->n != mat.n) || (this->m != mat.m)){
+            return false;
+        }
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(this->elements[i][j] != mat.elements[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //Logical Comparison !=
+    bool matrix::operator!=(const matrix &mat) const
+    {
+        return !(*this == mat);
+    }
+
 
 //Member Functions
 
     //Returns element (r,c) as a float
     float matrix::at(int r, int c)
     {
+        if((r >= n) || (c >= m)){
+            std::cout << "matrix .at error: indices out of bounds" << std::endl;
+            return 0;
+        }
         return(elements[r][c]);
     }
 
