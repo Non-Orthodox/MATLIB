@@ -115,16 +115,18 @@
                 this->els[1] += (atan2(cfl.els[1],cfl.els[0]));
             }
         } else{
-            cfloat temp(this->mag(),this->phase(),true);
             if(cfl.p){
+                cfloat temp(this->mag(),this->phase(),true);
                 temp.els[0] *= cfl.els[0];
                 temp.els[1] += cfl.els[1];
+                temp.rect();
+                *this = temp;
             } else{
-                temp.els[0] *= (sqrt(cfl.els[0] * cfl.els[0])+(cfl.els[1] * cfl.els[1]));
-                temp.els[1] += (atan2(cfl.els[1],cfl.els[0]));
+                float r;
+                r = (this->els[0] * cfl.els[0]) - (this->els[1] * cfl.els[1]);
+                this->els[1] = (this->els[0] * cfl.els[1]) + (this->els[1] * cfl.els[0]);
+                this->els[0] = r;
             }
-            temp.rect();
-            *this = temp;
         }
         return *this;
     }
@@ -142,16 +144,18 @@
                 this->els[1] -= (atan2(cfl.els[1],cfl.els[0]));
             }
         } else{
-            cfloat temp(this->mag(),this->phase(),true);
             if(cfl.p){
+                cfloat temp(this->mag(),this->phase(),true);
                 temp.els[0] /= cfl.els[0];
                 temp.els[1] -= cfl.els[1];
+                temp.rect();
+                *this = temp;
             } else{
-                temp.els[0] /= (sqrt(cfl.els[0] * cfl.els[0])+(cfl.els[1] * cfl.els[1]));
-                temp.els[1] -= (atan2(cfl.els[1],cfl.els[0]));
+                float r;
+                r = ( (this->els[0] * cfl.els[0]) + (this->els[1] * cfl.els[1]) ) / ( (cfl.els[0] * cfl.els[0]) + (cfl.els[1] * cfl.els[1]) );
+                this->els[1] = ( (this->els[1] * cfl.els[0]) - (this->els[0] * cfl.els[1]) ) / ( (cfl.els[0] * cfl.els[0]) + (cfl.els[1] * cfl.els[1]) );
+                this->els[0] = r;
             }
-            temp.rect();
-            *this = temp;
         }
         return *this;
     }
@@ -163,15 +167,17 @@
             this->set(1,0);
             return *this;
         }
+        cfloat result = *this;
         if(exp < 0){
             for(int i = 1; i < (-1*exp); i++){
-                *this *= *this; 
+                result *= *this; 
             }
-            *this = this->inv();
+            *this = result.inv();
         } else{
             for(int i = 1; i < exp; i++){
-                *this *= *this; 
+                 result *= *this; 
             }
+            *this = result;
         }
         return *this;
     }

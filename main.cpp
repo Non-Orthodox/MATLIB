@@ -2,6 +2,7 @@
 #include <string>
 #include "matlib.h"
 #include "cfloat.h"
+#include <cmath>
 
 int main()
 {
@@ -32,15 +33,13 @@ int main()
     x.std_print();
     x.polar();
 
-    //Multiplication gives wrong result here
     cfloat y;
     y = x+x*x;
     y.rect();
     y.std_print();
-    cfloat z = y*y;
-    z.std_print();
-    y^=2;
+    y^=3;
     y.std_print();
+    std::cout << y.mag() << " " << y.phase() << std::endl;
 
     return 0;
 }
