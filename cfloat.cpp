@@ -227,6 +227,27 @@
         return *result;
     }
 
+    //Unary operator ! reverses phasor (changes phase by pi/2)
+    cfloat& cfloat::operator!() const
+    {
+        cfloat* result = new cfloat(*this);
+        if(p){
+            result->els[0] *= -1;
+        } else{
+            result->els[0] *= -1;
+            result->els[1] *= -1;
+        }
+        return *result;
+    }
+
+    //Unary operator * produces complex conjugate
+    cfloat& cfloat::operator*() const
+    {
+        cfloat* result = new cfloat(*this);
+        result->els[1] *= -1;
+        return *result;
+    }
+
     //Logical Comparison ==
     bool cfloat::operator==(const cfloat &cfl) const
     {

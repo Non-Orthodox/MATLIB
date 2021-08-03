@@ -42,6 +42,8 @@ class cfloat
         const cfloat operator*(const cfloat &) const;
         const cfloat operator/(const cfloat &) const;
         const cfloat operator^(const int &) const;
+        cfloat& operator!() const;
+        cfloat& operator*() const;
         bool operator==(const cfloat &) const;
         bool operator!=(const cfloat &) const;
 

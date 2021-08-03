@@ -52,11 +52,14 @@ class matrix
         const matrix& operator-(const matrix &) const;
         const matrix& operator*(const matrix &) const;
         //const matrix& operator/(const matrix &) const;
+        matrix& operator[](const int) const;
         //matrix& operator()(int, int);
         //matrix& operator()(char,int);
         //matrix& operator()(int,char);
         bool operator==(const matrix &) const;
         bool operator!=(const matrix &) const;
+
+        
 };
 
 /*

@@ -173,6 +173,16 @@
         return *result;
     }
 
+    //Brackets [int] returns the column given by int
+    matrix& matrix::operator[](const int col) const
+    {
+        matrix* vector = new matrix(this->n,1);
+        for(int i = 0; i < n; i++){
+            vector->elements[i][1] = this->elements[i][col];
+        }
+        return *vector;
+    }
+
     //Logical Comparison ==
     bool matrix::operator==(const matrix &mat) const
     {

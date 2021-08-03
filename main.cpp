@@ -6,38 +6,33 @@
 
 int main()
 {
-    matrix mat(3,3);
-    mat.set(1,0,10);
-    mat.set(0,1,1);
-    mat.set(1,1,11);
-    mat.set(2,1,21);
-    mat.set(1,2,12);
-    mat.set(2,0,20);
-    mat.set(0,2,2);
-    mat.set(2,2,22);
-    mat.std_print();
+    // matrix mat(3,3);
+    // mat.set(1,0,10);
+    // mat.set(0,1,1);
+    // mat.set(1,1,11);
+    // mat.set(2,1,21);
+    // mat.set(1,2,12);
+    // mat.set(2,0,20);
+    // mat.set(0,2,2);
+    // mat.set(2,2,22);
+    // mat.std_print();
 
-    matrix mat2(3,1);
-    mat2.set(0,0,1);
-    mat2.set(1,0,1);
-    mat2.set(2,0,1);
-    mat2.std_print();
+    // matrix mat2(3,1);
+    // mat2.set(0,0,1);
+    // mat2.set(1,0,1);
+    // mat2.set(2,0,1);
+    // mat2.std_print();
 
-    matrix mat3 = mat;
-    mat3 *= mat2;
-    mat3.std_print();
+    // matrix mat3 = mat;
+    // mat3 *= mat2;
+    // mat3.std_print();
 
-    cfloat x(1,1);
-    x.std_print();
+    cfloat x(2,2);
+    cfloat y = *x;
+    y.std_print();
     x.polar();
-
-    cfloat y;
-    y = x+x*x;
-    y.rect();
-    y.std_print();
-    y^=3;
-    y.std_print();
-    std::cout << y.mag() << " " << y.phase() << std::endl;
+    cfloat z = *x;
+    z.std_print();
 
     return 0;
 }
