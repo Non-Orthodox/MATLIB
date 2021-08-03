@@ -11,11 +11,9 @@ class matrix
         int n; //number of rows
         int m; //number of columns
 
-    public:
-    //Variable Members
-        //Matrix element values
-        float** elements; //IMPORTANT: make this private when alternative method of editing elements is produced 
+        float** elements;
 
+    public:
     //Constructors
         matrix();
         matrix(int,int);
@@ -26,6 +24,7 @@ class matrix
 
     //Member Functions
         float at(int, int);
+        void set(int, int, float);
         matrix size();
         int size(int);
         void resize(int, int);

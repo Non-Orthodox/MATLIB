@@ -209,6 +209,14 @@
         return(elements[r][c]);
     }
 
+    //Set element (r,c) to a specified value val
+    void matrix::set(int r, int c, float val)
+    {
+        if((r<n) && (c<m)){
+            elements[r][c] = val;
+        }
+    }
+
     //Returns size of matrix, as a 1x2 matrix representing [n m]
     matrix matrix::size()
     {

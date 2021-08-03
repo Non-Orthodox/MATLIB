@@ -218,6 +218,15 @@
         return *result;
     }
 
+    //Binary integer exponoentiation ^
+    const cfloat cfloat::operator^(const int &exp) const
+    {
+        cfloat* result = new cfloat;
+        *result = *this;
+        *result ^= exp;
+        return *result;
+    }
+
     //Logical Comparison ==
     bool cfloat::operator==(const cfloat &cfl) const
     {
