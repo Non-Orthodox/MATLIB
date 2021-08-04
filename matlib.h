@@ -24,6 +24,8 @@ class matrix
 
     //Member Functions
         float at(int, int);
+        int rows();
+        int cols();
         void set(int, int, float);
         matrix size();
         int size(int);
@@ -46,11 +48,21 @@ class matrix
         //matrix& operator=(const float);
         matrix& operator+=(const matrix &);
         matrix& operator-=(const matrix &);
+
         matrix& operator*=(const matrix &);
+        matrix& operator*=(const float &);
+        matrix& operator*=(const double &);
+        matrix& operator*=(const int &);
+        
         //matrix& operator/=(const matrix &);
         const matrix& operator+(const matrix &) const;
         const matrix& operator-(const matrix &) const;
+        
         const matrix& operator*(const matrix &) const;
+        const matrix& operator*(const float &) const;
+        const matrix& operator*(const double &) const;
+        const matrix& operator*(const int &) const;
+        
         //const matrix& operator/(const matrix &) const;
         //const matrix& operator^(const int &) const;
         matrix& operator-() const;
@@ -63,6 +75,11 @@ class matrix
 
         
 };
+
+matrix& eye(int);
+matrix& ones(int,int);
+float norm(matrix &);
+matrix& householder(matrix &);
 
 /*
 Things I want this to do:

@@ -1,6 +1,7 @@
 #include "matlib.h"
 #include <iostream>
 #include <string>
+#include <cmath>
 
 //Constructors
     matrix::matrix()
@@ -65,6 +66,15 @@
         if(this == &mat)
             return *this;
         
+        if((this->n == mat.n) && (this->m == mat.m)){
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < m; j++){
+                    this->elements[i][j] = mat.elements[i][j];
+                }
+            }
+            return *this;
+        }
+
         //De-allocate memory
         for(int k = 0; k < n; k++)
         {
@@ -133,6 +143,33 @@
         *this = *this * mat;
         return *this;
     }
+    matrix& matrix::operator*=(const float &fl)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] *= fl;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator*=(const double &db)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] *= (float)db;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator*=(const int &in)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] *= (float)in;
+            }
+        }
+        return *this;
+    }
 
     //Binary Arithmetic +
     const matrix& matrix::operator+(const matrix &mat) const
@@ -170,6 +207,24 @@
             }
         }
 
+        return *result;
+    }
+    const matrix& matrix::operator*(const float &fl) const
+    {
+        matrix* result = new matrix(*this);
+        *result *= fl;
+        return *result;
+    }
+    const matrix& matrix::operator*(const double &db) const
+    {
+        matrix* result = new matrix(*this);
+        *result *= (float)db;
+        return *result;
+    }
+    const matrix& matrix::operator*(const int &in) const
+    {
+        matrix* result = new matrix(*this);
+        *result *= (float)in;
         return *result;
     }
 
@@ -229,6 +284,18 @@
             return 0;
         }
         return(elements[r][c]);
+    }
+
+    //Returns n
+    int matrix::rows()
+    {
+        return this->n;
+    }
+
+    //Returns m
+    int matrix::cols()
+    {
+        return this->m;
     }
 
     //Set element (r,c) to a specified value val
@@ -333,3 +400,67 @@
         }
         std::cout << std::endl;
     }
+
+
+//Produces an n x n identity matrix, with n as the input
+matrix& eye(int dim)
+{
+    if(dim <= 0){
+        matrix* err = new matrix;
+        err->set(0,0,dim);
+        return *err;
+    }
+
+    matrix* id = new matrix(dim,dim);
+    for(int i = 0; i < dim; i++){
+        id->set(dim,dim,1);
+    }
+    return *id;
+}
+
+//Produces a matrix of ones, with dimensions specified as inputs
+matrix& ones(int rows, int cols)
+{
+    if((rows < 1) || (cols < 1)){
+        matrix* err = new matrix;
+        return *err;
+    }
+
+    matrix* ones = new matrix(rows,cols);
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            ones->set(i,j,1);
+        }
+    }
+
+    return *ones;
+}
+
+//Finds the magnitude of a vector (so the matrix must be n x 1)
+float vecNorm(matrix &mat)
+{
+    float result = 0;
+    
+    if(mat.cols() != 1){
+        return 1;
+    }
+
+    for(int i = 0; i < mat.rows(); i++){
+        result += (mat.at(i,0) * mat.at(i,0));
+    }
+
+    return sqrt(result);
+}
+
+//Returns householder matrix for transforming the first column of the input matrix (x) into a vector of the form [ ||x|| 0 ... 0 ]^T
+matrix& householder(matrix &mat)
+{
+    matrix* u = new matrix(mat.rows(),1);
+    u->set(0,0,vecNorm(mat[0]));
+    *u = mat[0] - *u;
+    
+    matrix* HH = new matrix;
+    *HH = eye(mat.cols());
+    *HH -= (*u) * ((*u).T()) * 2;
+    return *HH;
+}

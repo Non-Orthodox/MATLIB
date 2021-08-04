@@ -26,11 +26,8 @@ int main()
     // matrix mat3 = mat;
     // mat3 *= mat2;
     // mat3.std_print();
-
-    cfloat x(1,2);
     
 
     //write interpreter cpp file with list class
-
     return 0;
 }
