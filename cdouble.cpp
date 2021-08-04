@@ -219,6 +219,24 @@
         *result += (double)in;
         return *result;
     }
+    const cdouble operator+(const double &db, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result += db;
+        return *result;
+    }
+    const cdouble operator+(const float &fl, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result += (double)fl;
+        return *result;
+    }
+    const cdouble operator+(const int &in, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result += (double)in;
+        return *result;
+    }
 
     //Binary Arithmetic -
     const cdouble cdouble::operator-(const cdouble &cfl) const
@@ -243,6 +261,24 @@
     const cdouble cdouble::operator-(const int &in) const
     {
         cdouble* result = new cdouble(*this);
+        *result -= (double)in;
+        return *result;
+    }
+    const cdouble operator-(const double &db, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result -= db;
+        return *result;
+    }
+    const cdouble operator-(const float &fl, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result -= (double)fl;
+        return *result;
+    }
+    const cdouble operator-(const int &in, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
         *result -= (double)in;
         return *result;
     }
@@ -273,6 +309,24 @@
         *result *= (double)in;
         return *result;
     }
+    const cdouble operator*(const double &db, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result *= db;
+        return *result;
+    }
+    const cdouble operator*(const float &fl, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result *= (double)fl;
+        return *result;
+    }
+    const cdouble operator*(const int &in, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result *= (double)in;
+        return *result;
+    }
 
     //Binary Arithmetic /
     const cdouble cdouble::operator/(const cdouble &cfl) const
@@ -299,6 +353,27 @@
         *result /= (double)in;
         return *result;
     }
+    const cdouble operator/(const double &db, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result = result->inv();
+        *result *= db;
+        return *result;
+    }
+    const cdouble operator/(const float &fl, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result = result->inv();
+        *result *= (double)fl;
+        return *result;
+    }
+    const cdouble operator/(const int &in, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble(cdl);
+        *result = result->inv();
+        *result *= (double)in;
+        return *result;
+    }
 
     //Binary integer exponoentiation ^
     const cdouble cdouble::operator^(const int &exp) const
@@ -307,8 +382,38 @@
         *result ^= exp;
         return *result;
     }
+    const cdouble operator^(const double &db, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble;
+        double amp = pow(db,cdl.els[0]);
+        double phase = cdl.els[1] * log(db);
 
-    //Unary operator - reverses phasor (changes phase by pi/2)
+        result->els[0] = amp * cos(phase);
+        result->els[1] = amp * sin(phase);
+        return *result;
+    }
+    const cdouble operator^(const float &fl, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble;
+        double amp = pow((double)fl,cdl.els[0]);
+        double phase = cdl.els[1] * log((double)fl);
+
+        result->els[0] = amp * cos(phase);
+        result->els[1] = amp * sin(phase);
+        return *result;
+    }
+    const cdouble operator^(const int &in, const cdouble &cdl)
+    {
+        cdouble* result = new cdouble;
+        double amp = pow((double)in,cdl.els[0]);
+        double phase = cdl.els[1] * log((double)in);
+
+        result->els[0] = amp * cos(phase);
+        result->els[1] = amp * sin(phase);
+        return *result;
+    }
+
+    //Unary operator - multiplies by -1
     cdouble& cdouble::operator-() const
     {
         cdouble* result = new cdouble(*this);
@@ -386,11 +491,17 @@
         this->els[1] = b;
     }
 
-    //Print the imaginary number to console using std::cout
-    void cdouble::std_print()
+    //Print the complex number to console in rectangular form
+    void cdouble::rect_print()
     {
         if(els[1] >= 0)
             std::cout << els[0] << "+" << els[1] << "i" << std::endl << std::endl;
         else
             std::cout << els[0] << els[1] << "i" << std::endl << std::endl;
+    }
+
+    //Print the complex number to console in polar form
+    void cdouble::polar_print()
+    {
+        std::cout << this->mag() << " * exp(" << this->phase() << "i)" << std::endl << std::endl;
     }

@@ -11,4 +11,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Executable
-add_executable(MATLIB main.cpp matlib.cpp cfloat.cpp cdouble.cpp)
+add_executable(MATLIB main.cpp matlib.cpp cdouble.cpp)

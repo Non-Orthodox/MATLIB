@@ -25,7 +25,8 @@ class cdouble
         double phase();
         cdouble inv();
         void set(double,double);
-        void std_print();
+        void rect_print();
+        void polar_print();
 
 
         //Operator Overloading
@@ -58,23 +59,38 @@ class cdouble
         const cdouble operator+(const double &) const;
         const cdouble operator+(const float &) const;
         const cdouble operator+(const int &) const;
+        friend const cdouble operator+(const double &, const cdouble &);
+        friend const cdouble operator+(const float &, const cdouble &);
+        friend const cdouble operator+(const int &, const cdouble &);
 
         const cdouble operator-(const cdouble &) const;
         const cdouble operator-(const double &) const;
         const cdouble operator-(const float &) const;
         const cdouble operator-(const int &) const;
+        friend const cdouble operator-(const double &, const cdouble &);
+        friend const cdouble operator-(const float &, const cdouble &);
+        friend const cdouble operator-(const int &, const cdouble &);
 
         const cdouble operator*(const cdouble &) const;
         const cdouble operator*(const double &) const;
         const cdouble operator*(const float &) const;
         const cdouble operator*(const int &) const;
+        friend const cdouble operator*(const double &, const cdouble &);
+        friend const cdouble operator*(const float &, const cdouble &);
+        friend const cdouble operator*(const int &, const cdouble &);
 
         const cdouble operator/(const cdouble &) const;
         const cdouble operator/(const double &) const;
         const cdouble operator/(const float &) const;
         const cdouble operator/(const int &) const;
+        friend const cdouble operator/(const double &, const cdouble &);
+        friend const cdouble operator/(const float &, const cdouble &);
+        friend const cdouble operator/(const int &, const cdouble &);
 
         const cdouble operator^(const int &) const;
+        friend const cdouble operator^(const double &, const cdouble &);
+        friend const cdouble operator^(const float &, const cdouble &);
+        friend const cdouble operator^(const int &, const cdouble &);
 
         cdouble& operator-() const;
 

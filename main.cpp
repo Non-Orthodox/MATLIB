@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "matlib.h"
-#include "cfloat.h"
+#include "cdouble.h"
 #include <cmath>
 
 int main()
@@ -27,7 +27,11 @@ int main()
     // mat3 *= mat2;
     // mat3.std_print();
     
-    
+    cdouble x(1,1);
+    double a = 5;
+    x = a^x;
+    x.rect_print();
+    x.polar_print();
 
     //write interpreter cpp file with list class
     return 0;
