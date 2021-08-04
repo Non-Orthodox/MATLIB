@@ -10,6 +10,8 @@ class cfloat
     public:
         //Constructors
         cfloat();
+        cfloat(bool);
+        cfloat(float);
         cfloat(float,float);
         cfloat(float,float,bool);
         cfloat(const cfloat &);
@@ -32,23 +34,62 @@ class cfloat
 
         //Operator Overloading
         cfloat& operator=(const cfloat &);
+        cfloat& operator=(const char*);
+
         cfloat& operator+=(const cfloat &);
+        cfloat& operator+=(const float &);
+        cfloat& operator+=(const double &);
+        cfloat& operator+=(const int &);
+
         cfloat& operator-=(const cfloat &);
+        cfloat& operator-=(const float &);
+        cfloat& operator-=(const double &);
+        cfloat& operator-=(const int &);
+
         cfloat& operator*=(const cfloat &);
+        cfloat& operator*=(const float &);
+        cfloat& operator*=(const double &);
+        cfloat& operator*=(const int &);
+
         cfloat& operator/=(const cfloat &);
+        cfloat& operator/=(const float &);
+        cfloat& operator/=(const double &);
+        cfloat& operator/=(const int &);
+
         cfloat& operator^=(const int &);
+
         const cfloat operator+(const cfloat &) const;
+        const cfloat operator+(const float &) const;
+        const cfloat operator+(const double &) const;
+        const cfloat operator+(const int &) const;
+
         const cfloat operator-(const cfloat &) const;
+        const cfloat operator-(const float &) const;
+        const cfloat operator-(const double &) const;
+        const cfloat operator-(const int &) const;
+
         const cfloat operator*(const cfloat &) const;
+        const cfloat operator*(const float &) const;
+        const cfloat operator*(const double &) const;
+        const cfloat operator*(const int &) const;
+
         const cfloat operator/(const cfloat &) const;
+        const cfloat operator/(const float &) const;
+        const cfloat operator/(const double &) const;
+        const cfloat operator/(const int &) const;
+
         const cfloat operator^(const int &) const;
-        cfloat& operator!() const;
+
+        cfloat& operator-() const;
+
         cfloat& operator*() const;
+
         bool operator==(const cfloat &) const;
+
         bool operator!=(const cfloat &) const;
 
 };
 
-
-
 #endif
+
+//make s2f function

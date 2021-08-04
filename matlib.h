@@ -52,6 +52,8 @@ class matrix
         const matrix& operator-(const matrix &) const;
         const matrix& operator*(const matrix &) const;
         //const matrix& operator/(const matrix &) const;
+        //const matrix& operator^(const int &) const;
+        matrix& operator-() const;
         matrix& operator[](const int) const;
         //matrix& operator()(int, int);
         //matrix& operator()(char,int);

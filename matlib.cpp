@@ -173,6 +173,18 @@
         return *result;
     }
 
+    //Unary operator - (multiplies all elements by -1)
+    matrix& matrix::operator-() const
+    {
+        matrix* result = new matrix(n,m);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                result->elements[i][j] = this->elements[i][j]*(-1);
+            }
+        }
+        return *result;
+    }
+
     //Brackets [int] returns the column given by int
     matrix& matrix::operator[](const int col) const
     {

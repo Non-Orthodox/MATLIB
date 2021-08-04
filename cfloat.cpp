@@ -1,11 +1,25 @@
 #include "cfloat.h"
 #include <cmath>
 #include <iostream>
+#include <string>
 
 //Constructors
     cfloat::cfloat()
     {
         els[0] = 0;
+        els[1] = 0;
+    }
+
+    cfloat::cfloat(bool pol)
+    {
+        p = pol;
+        els[0] = 0;
+        els[1] = 0;
+    }
+
+    cfloat::cfloat(float r)
+    {
+        els[0] = r;
         els[1] = 0;
     }
 
@@ -48,6 +62,30 @@
         return *this;
     }
 
+    //Assigns cfloat based on a string. Format is "r i"
+    cfloat& cfloat::operator=(const char* str)
+    {
+        int index = 0;
+        std::string nums[2];
+        int k = 0;
+        while(str[index] != 0)
+        {
+            if(std::isdigit(str[index]) || (str[index] == '.')){
+                nums[k].push_back(str[index]);
+            } else{
+                if(str[index] == ' '){
+                    k++;
+                }
+            }
+            index++;
+        }
+
+        this->els[0] = std::stof(nums[0]);
+        this->els[1] = std::stof(nums[1]);
+
+        return *this;
+    }
+
     //Compound Assignment +=
     cfloat& cfloat::operator+=(const cfloat &cfl)
     {
@@ -71,6 +109,48 @@
                 this->els[0] += cfl.els[0];
                 this->els[1] += cfl.els[1];
             }
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator+=(const float &fl)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] += fl; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] += fl;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator+=(const double &db)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] += (float)db; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] += (float)db;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator+=(const int &in)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] += (float)in; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] += (float)in;
         }
         return *this;
     }
@@ -101,8 +181,50 @@
         }
         return *this;
     }
+    cfloat& cfloat::operator-=(const float &fl)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] -= fl; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] -= fl;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator-=(const double &db)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] -= (float)db; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] -= (float)db;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator-=(const int &in)
+    {
+        if(p){
+            cfloat* temp = new cfloat(*this);
+            temp->rect();
+            temp->els[0] -= (float)in; 
+            temp->polar();
+            *this = *temp;
+            delete temp;
+        } else{
+            this->els[0] -= (float)in;
+        }
+        return *this;
+    }
 
-    //Compound Assignment *=
+    //Compound Assignment *= with another cfloat
     cfloat& cfloat::operator*=(const cfloat &cfl)
     {
         if(this->p)
@@ -127,6 +249,36 @@
                 this->els[1] = (this->els[0] * cfl.els[1]) + (this->els[1] * cfl.els[0]);
                 this->els[0] = r;
             }
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator*=(const float &fl)
+    {
+        if(p){
+            this->els[0] *= fl;
+        }else {
+            this->els[0] *= fl;
+            this->els[1] *= fl;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator*=(const double &db)
+    {
+        if(p){
+            this->els[0] *= (float)db;
+        }else {
+            this->els[0] *= (float)db;
+            this->els[1] *= (float)db;
+        }
+        return *this;
+    }
+    cfloat& cfloat::operator*=(const int &in)
+    {
+        if(p){
+            this->els[0] *= (float)in;
+        }else {
+            this->els[0] *= (float)in;
+            this->els[1] *= (float)in;
         }
         return *this;
     }
@@ -157,6 +309,21 @@
                 this->els[0] = r;
             }
         }
+        return *this;
+    }
+    cfloat& cfloat::operator/=(const float &fl)
+    {
+        *this *= (1/fl);
+        return *this;
+    }
+    cfloat& cfloat::operator/=(const double &db)
+    {
+        *this *= (1/((float)db));
+        return *this;
+    }
+    cfloat& cfloat::operator/=(const int &in)
+    {
+        *this *= (1/((float)in));
         return *this;
     }
 
@@ -190,6 +357,24 @@
         *result += cfl;
         return *result;
     }
+    const cfloat cfloat::operator+(const float &fl) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result += fl;
+        return *result;
+    }
+    const cfloat cfloat::operator+(const double &db) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result += (float)db;
+        return *result;
+    }
+    const cfloat cfloat::operator+(const int &in) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result += (float)in;
+        return *result;
+    }
 
     //Binary Arithmetic -
     const cfloat cfloat::operator-(const cfloat &cfl) const
@@ -197,6 +382,24 @@
         cfloat* result = new cfloat;
         *result = *this;
         *result -= cfl;
+        return *result;
+    }
+    const cfloat cfloat::operator-(const float &fl) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result -= fl;
+        return *result;
+    }
+    const cfloat cfloat::operator-(const double &db) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result -= (float) db;
+        return *result;
+    }
+    const cfloat cfloat::operator-(const int &in) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result -= (float)in;
         return *result;
     }
 
@@ -208,6 +411,24 @@
         *result *= cfl;
         return *result;
     }
+    const cfloat cfloat::operator*(const float &fl) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result *= fl;
+        return *result;
+    }
+    const cfloat cfloat::operator*(const double &db) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result *= (float)db;
+        return *result;
+    }
+    const cfloat cfloat::operator*(const int &in) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result *= (float)in;
+        return *result;
+    }
 
     //Binary Arithmetic /
     const cfloat cfloat::operator/(const cfloat &cfl) const
@@ -215,6 +436,24 @@
         cfloat* result = new cfloat;
         *result = *this;
         *result /= cfl;
+        return *result;
+    }
+    const cfloat cfloat::operator/(const float &fl) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result /= fl;
+        return *result;
+    }
+    const cfloat cfloat::operator/(const double &db) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result /= (float)db;
+        return *result;
+    }
+    const cfloat cfloat::operator/(const int &in) const
+    {
+        cfloat* result = new cfloat(*this);
+        *result /= (float)in;
         return *result;
     }
 
@@ -227,8 +466,8 @@
         return *result;
     }
 
-    //Unary operator ! reverses phasor (changes phase by pi/2)
-    cfloat& cfloat::operator!() const
+    //Unary operator - reverses phasor (changes phase by pi/2)
+    cfloat& cfloat::operator-() const
     {
         cfloat* result = new cfloat(*this);
         if(p){

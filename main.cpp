@@ -27,12 +27,10 @@ int main()
     // mat3 *= mat2;
     // mat3.std_print();
 
-    cfloat x(2,2);
-    cfloat y = *x;
-    y.std_print();
-    x.polar();
-    cfloat z = *x;
-    z.std_print();
+    cfloat x(1,2);
+    
+
+    //write interpreter cpp file with list class
 
     return 0;
 }
