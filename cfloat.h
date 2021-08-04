@@ -20,6 +20,7 @@ class cfloat
         //Destructors
         ~cfloat();
 
+
         //Member Functions
         float re();
         float im();
@@ -31,6 +32,7 @@ class cfloat
         void set(float,float);
         void set(float,float,bool);
         void std_print();
+
 
         //Operator Overloading
         cfloat& operator=(const cfloat &);
