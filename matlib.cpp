@@ -12,6 +12,26 @@
         elements[0][0] = 0;
     }
 
+    matrix::matrix(int dim)
+    {
+        if(dim < 1){
+            std::cout << "matrix::matrix(int) error: dimensions invalid" << std::endl;
+            n = m = 1;
+        } else{
+            n = m = dim;
+        }
+        
+        elements = new double* [n];
+        for(int i = 0; i < n; i++)
+        {
+            elements[i] = new double [m];
+            for(int j = 0; j < m; j++)
+            {
+                elements[i][j] = 0;
+            }
+        }
+    }
+
     matrix::matrix(int height, int width)
     {
         if((height < 1) || (width < 1)){
@@ -607,7 +627,7 @@
     //Produces an n x n identity matrix, with n as the input
     matrix& eye(int dim)
     {
-        matrix* id = new matrix(dim,dim);
+        matrix* id = new matrix(dim);
         for(int i = 0; i < dim; i++){
             id->elements[i][i] = 1;
         }
@@ -659,4 +679,67 @@
         *HH = eye(mat.n);
         *HH -= (*u) * ((*u).T()) * (2 / squNorm);
         return *HH;
+    }
+
+    //Returns input matrix without first row and first column
+    matrix& chipFront(matrix &mat)
+    {
+        if((mat.n < 2) || (mat.m < 2)){
+            std::cout << "chip error: input matrix dimensions invalid" << std::endl;
+            matrix* err = new matrix;
+            return *err;
+        }
+
+        matrix* result = new matrix((mat.n-1),(mat.m-1));
+        for(int i = 0; i < result->n; i++)
+        {
+            for(int j = 0; j < result->m; j++)
+            {
+                result->elements[i][j] = mat.elements[i+1][j+1];
+            }
+        }
+        return *result;
+    }
+
+    //Returns input matrix with extra row and column put at the beginning. All added elements are 0 except for [0][0], which is given the value of 1.
+    matrix& pushFront(matrix &mat)
+    {
+        matrix* result = new matrix((mat.n+1),(mat.m+1));
+        result->elements[0][0] = 1;
+
+        for(int i = 0; i < mat.n; i++){
+            for(int j = 0; j < mat.m; j++){
+                result->elements[i+1][j+1] = mat.elements[i][j];
+            }
+        }
+        return *result;
+    }
+
+    //Returns orthogonal matrix Q found with Householder QR factorization. Tested up to 3x3 matrices so far.
+    matrix& QR(matrix &mat)
+    {
+        matrix* Q = new matrix(mat.n);
+        *Q = eye(mat.n);
+
+        if(mat.n < mat.m){
+            std::cout << "QR error: dimensions invalid (more columns than rows)" << std::endl;
+            return *Q;
+        }
+        
+        matrix* A = new matrix(mat);
+        matrix* P = new matrix;
+        for(int i = 0; i < (mat.m-1); i++){
+            *P = householder(*A);
+            for(int j = 0; j < i; j++){
+                *P = pushFront(*P);
+            }
+            *Q = *P * *Q;
+            *A = *Q * mat;
+            for(int j = 0; j < (i+1); j++){
+                *A = chipFront(*A);
+            }
+        }
+        delete P;
+        delete A;
+        return *Q;
     }

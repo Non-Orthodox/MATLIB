@@ -16,6 +16,7 @@ class matrix
     public:
     //Constructors
         matrix();
+        matrix(int);
         matrix(int,int);
         matrix(const matrix &);
 
@@ -115,12 +116,18 @@ class matrix
     friend matrix& ones(int,int);
     friend double vecNorm(matrix &);
     friend matrix& householder(matrix &);
+    friend matrix& chipFront(matrix &);
+    friend matrix& pushFront(matrix &);
+    friend matrix& QR(matrix &);
 };
 
 matrix& eye(int);
 matrix& ones(int,int);
 double vecNorm(matrix &);
 matrix& householder(matrix &);
+matrix& chipFront(matrix &);
+matrix& pushFront(matrix &);
+matrix& QR(matrix &);
 
 /*
 Things I want this to do:
