@@ -7,21 +7,24 @@
     matrix::matrix()
     {
         n = m = 1;
-        elements = new float* [1];
-        elements[0] = new float [1];
+        elements = new double* [1];
+        elements[0] = new double [1];
         elements[0][0] = 0;
     }
 
     matrix::matrix(int height, int width)
     {
-        //make sure to check if dimensions are positive numbers
-        n = height;
-        m = width;
+        if((height < 0) || (width < 0)){
+            n = m = 1;
+        } else{
+            n = height;
+            m = width;
+        }
         
-        elements = new float* [n];
+        elements = new double* [n];
         for(int i = 0; i < n; i++)
         {
-            elements[i] = new float [m];
+            elements[i] = new double [m];
             for(int j = 0; j < m; j++)
             {
                 elements[i][j] = 0;
@@ -34,10 +37,10 @@
         n = mat.n;
         m = mat.m;
 
-        elements = new float* [n];
+        elements = new double* [n];
         for(int i = 0; i < n; i++)
         {
-            elements[i] = new float [m];
+            elements[i] = new double [m];
             for(int j = 0; j < m; j++)
             {
                 elements[i][j] = mat.elements[i][j];
@@ -87,10 +90,10 @@
         m = mat.m;
 
         //Re-allocate memory and copy information of mat
-        elements = new float* [n];
+        elements = new double* [n];
         for(int i = 0; i < n; i++)
         {
-            elements[i] = new float [m];
+            elements[i] = new double [m];
             for(int j = 0; j < m; j++)
             {
                 elements[i][j] = mat.elements[i][j];
@@ -119,6 +122,33 @@
         }
         return *this;
     }
+    matrix& matrix::operator+=(const double &db)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] += db;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator+=(const float &fl)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] += (double)fl;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator+=(const int &in)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] += (double)in;
+            }
+        }
+        return *this;
+    }
 
     //Compound Assignment -=
     matrix& matrix::operator-=(const matrix &mat)
@@ -136,6 +166,33 @@
         }
         return *this;
     }
+    matrix& matrix::operator-=(const double &db)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] -= db;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator-=(const float &fl)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] -= (double)fl;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator-=(const int &in)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] -= (double)in;
+            }
+        }
+        return *this;
+    }
 
     //Compound Assignment *=
     matrix& matrix::operator*=(const matrix &mat)
@@ -143,20 +200,20 @@
         *this = *this * mat;
         return *this;
     }
-    matrix& matrix::operator*=(const float &fl)
-    {
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                this->elements[i][j] *= fl;
-            }
-        }
-        return *this;
-    }
     matrix& matrix::operator*=(const double &db)
     {
         for(int i = 0; i < n; i++){
             for(int j = 0; j < m; j++){
-                this->elements[i][j] *= (float)db;
+                this->elements[i][j] *= db;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator*=(const float &fl)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] *= (double)fl;
             }
         }
         return *this;
@@ -165,7 +222,7 @@
     {
         for(int i = 0; i < n; i++){
             for(int j = 0; j < m; j++){
-                this->elements[i][j] *= (float)in;
+                this->elements[i][j] *= (double)in;
             }
         }
         return *this;
@@ -174,8 +231,7 @@
     //Binary Arithmetic +
     const matrix& matrix::operator+(const matrix &mat) const
     {
-        matrix* result = new matrix;
-        *result = *this;
+        matrix* result = new matrix(*this);
         *result += mat;
         return *result;
     }
@@ -183,8 +239,7 @@
     //Binary Arithmetic -
     const matrix& matrix::operator-(const matrix &mat) const
     {
-        matrix* result = new matrix;
-        *result = *this;
+        matrix* result = new matrix(*this);
         *result -= mat;
         return *result;
     }
@@ -206,25 +261,24 @@
                 }
             }
         }
-
-        return *result;
-    }
-    const matrix& matrix::operator*(const float &fl) const
-    {
-        matrix* result = new matrix(*this);
-        *result *= fl;
         return *result;
     }
     const matrix& matrix::operator*(const double &db) const
     {
         matrix* result = new matrix(*this);
-        *result *= (float)db;
+        *result *= db;
+        return *result;
+    }
+    const matrix& matrix::operator*(const float &fl) const
+    {
+        matrix* result = new matrix(*this);
+        *result *= (double)fl;
         return *result;
     }
     const matrix& matrix::operator*(const int &in) const
     {
         matrix* result = new matrix(*this);
-        *result *= (float)in;
+        *result *= (double)in;
         return *result;
     }
 
@@ -240,7 +294,7 @@
         return *result;
     }
 
-    //Brackets [int] returns the column given by int
+    //Brackets [col] returns the column given by col
     matrix& matrix::operator[](const int col) const
     {
         matrix* vector = new matrix(this->n,1);
@@ -276,10 +330,10 @@
 
 //Member Functions
 
-    //Returns element (r,c) as a float
-    float matrix::at(int r, int c)
+    //Returns element (r,c) as a double
+    double matrix::at(int r, int c)
     {
-        if((r >= n) || (c >= m)){
+        if((r >= n) || (c >= m) || (r < 1) || (c < 1)){
             std::cout << "matrix .at error: indices out of bounds" << std::endl;
             return 0;
         }
@@ -299,14 +353,16 @@
     }
 
     //Set element (r,c) to a specified value val
-    void matrix::set(int r, int c, float val)
+    void matrix::set(int r, int c, double val)
     {
-        if((r<n) && (c<m)){
+        if((r >= n) || (c >= m) || (r < 1) || (c < 1)){
+            std::cout << "matrix .set error: indices out of bounds" << std::endl;
+        } else{
             elements[r][c] = val;
         }
     }
 
-    //Returns size of matrix, as a 1x2 matrix representing [n m]
+    //Returns size of matrix as a 1x2 matrix representing [n m]
     matrix matrix::size()
     {
         matrix* siz = new matrix(1,2);
@@ -402,65 +458,67 @@
     }
 
 
-//Produces an n x n identity matrix, with n as the input
-matrix& eye(int dim)
-{
-    if(dim <= 0){
-        matrix* err = new matrix;
-        err->set(0,0,dim);
-        return *err;
-    }
+//Friend Functions
 
-    matrix* id = new matrix(dim,dim);
-    for(int i = 0; i < dim; i++){
-        id->set(dim,dim,1);
-    }
-    return *id;
-}
-
-//Produces a matrix of ones, with dimensions specified as inputs
-matrix& ones(int rows, int cols)
-{
-    if((rows < 1) || (cols < 1)){
-        matrix* err = new matrix;
-        return *err;
-    }
-
-    matrix* ones = new matrix(rows,cols);
-    for(int i = 0; i < rows; i++){
-        for(int j = 0; j < cols; j++){
-            ones->set(i,j,1);
+    //Produces an n x n identity matrix, with n as the input
+    matrix& eye(int dim)
+    {
+        if(dim < 1){
+            matrix* err = new matrix;
+            err->elements[0][0] = 1;
+            return *err;
         }
+
+        matrix* id = new matrix(dim,dim);
+        for(int i = 0; i < dim; i++){
+            id->elements[dim][dim] = 1;
+        }
+        return *id;
     }
 
-    return *ones;
-}
+    //Produces a matrix of ones, with dimensions specified as inputs
+    matrix& ones(int rows, int cols)
+    {
+        if((rows < 1) || (cols < 1)){
+            matrix* err = new matrix;
+            return *err;
+        }
 
-//Finds the magnitude of a vector (so the matrix must be n x 1)
-float vecNorm(matrix &mat)
-{
-    float result = 0;
-    
-    if(mat.cols() != 1){
-        return 1;
+        matrix* ones = new matrix(rows,cols);
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                ones->elements[i][j] = 1;
+            }
+        }
+        return *ones;
     }
 
-    for(int i = 0; i < mat.rows(); i++){
-        result += (mat.at(i,0) * mat.at(i,0));
+    //Finds the magnitude of a vector (so the matrix must be n x 1)
+    double vecNorm(matrix &mat)
+    {
+        double result = 0;
+        
+        if(mat.m != 1){
+            return 1;
+        }
+
+        for(int i = 0; i < mat.n; i++){
+            result += (mat.elements[i][0] * mat.elements[i][0]);
+        }
+
+        return sqrt(result);
     }
 
-    return sqrt(result);
-}
-
-//Returns householder matrix for transforming the first column of the input matrix (x) into a vector of the form [ ||x|| 0 ... 0 ]^T
-matrix& householder(matrix &mat)
-{
-    matrix* u = new matrix(mat.rows(),1);
-    u->set(0,0,vecNorm(mat[0]));
-    *u = mat[0] - *u;
-    
-    matrix* HH = new matrix;
-    *HH = eye(mat.cols());
-    *HH -= (*u) * ((*u).T()) * 2;
-    return *HH;
-}
+    //Returns householder matrix for transforming the first column of the input matrix (x) into a vector of the form [ ||x|| 0 ... 0 ]^T
+    matrix& householder(matrix &mat)
+    {
+        matrix* u = new matrix(mat.n,1);
+        u->elements[0][0] = vecNorm(mat[0]);
+        *u = mat[0] - *u;
+        //*u /= vecNorm(*u);
+        
+        matrix* HH = new matrix;
+        *HH = eye(mat.n);
+        *HH -= (*u) * ((*u).T()) * 2;
+        return *HH;
+    }

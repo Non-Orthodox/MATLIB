@@ -14,21 +14,14 @@ mag()               returns polar magnitude
 phase()             returns polar phase
 inv()               returns complex inverse
 set(double,double)  sets real and imaginary portions, respectively
-rect_print()         prints complex number to console in rectangular form
-polar_print()         prints complex number to console in polar form
+rect_print()        prints complex number to console in rectangular form
+polar_print()       prints complex number to console in polar form
 
 ### Operators
-+= 
--= 
-*= 
-/= 
-^= (only does integer powers right now)
+compound: += -= *= /= ^= 
+(^= only does integer powers at the moment)
 
-+ 
-- 
-* 
-/ 
-^ (only does integer powers right now)
+binary: + - * / ^
+(^ only does integer powers at the moment)
 
-== 
-!= 
+logical: == != 

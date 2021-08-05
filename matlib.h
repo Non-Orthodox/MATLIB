@@ -11,7 +11,7 @@ class matrix
         int n; //number of rows
         int m; //number of columns
 
-        float** elements;
+        double** elements;
 
     public:
     //Constructors
@@ -22,15 +22,62 @@ class matrix
     //Destructor
         ~matrix();
 
+
+    //Operator Overloading
+        matrix& operator=(const matrix &);
+        //matrix& operator=(const std::string &);
+        //matrix& operator=(const double);
+
+        matrix& operator+=(const matrix &);
+        matrix& operator+=(const double &);
+        matrix& operator+=(const float &);
+        matrix& operator+=(const int &);
+        
+        matrix& operator-=(const matrix &);
+        matrix& operator-=(const double &);
+        matrix& operator-=(const float &);
+        matrix& operator-=(const int &);
+
+        matrix& operator*=(const matrix &);
+        matrix& operator*=(const double &);
+        matrix& operator*=(const float &);
+        matrix& operator*=(const int &);
+        
+        //matrix& operator/=(const matrix &);
+        
+        const matrix& operator+(const matrix &) const;
+        
+        const matrix& operator-(const matrix &) const;
+        
+        const matrix& operator*(const matrix &) const;
+        const matrix& operator*(const double &) const;
+        const matrix& operator*(const float &) const;
+        const matrix& operator*(const int &) const;
+        
+        //const matrix& operator/(const matrix &) const;
+        
+        //const matrix& operator^(const int &) const;
+        
+        matrix& operator-() const;
+        matrix& operator[](const int) const;
+        
+        //matrix& operator()(int, int);
+        //matrix& operator()(char,int);
+        //matrix& operator()(int,char);
+        
+        bool operator==(const matrix &) const;
+        bool operator!=(const matrix &) const;
+
+
     //Member Functions
-        float at(int, int);
+        double at(int, int);
         int rows();
         int cols();
-        void set(int, int, float);
+        void set(int, int, double);
         matrix size();
         int size(int);
         void resize(int, int);
-        //void resize(int,int,float); //float is default value for new elements
+        //void resize(int,int,double); //double is default value for new elements
         matrix T();
         void setT();
         //void zeros();
@@ -42,44 +89,14 @@ class matrix
         //eig()
 
 
-    //Operator Overloading
-        matrix& operator=(const matrix &);
-        //matrix& operator=(const std::string &);
-        //matrix& operator=(const float);
-        matrix& operator+=(const matrix &);
-        matrix& operator-=(const matrix &);
-
-        matrix& operator*=(const matrix &);
-        matrix& operator*=(const float &);
-        matrix& operator*=(const double &);
-        matrix& operator*=(const int &);
-        
-        //matrix& operator/=(const matrix &);
-        const matrix& operator+(const matrix &) const;
-        const matrix& operator-(const matrix &) const;
-        
-        const matrix& operator*(const matrix &) const;
-        const matrix& operator*(const float &) const;
-        const matrix& operator*(const double &) const;
-        const matrix& operator*(const int &) const;
-        
-        //const matrix& operator/(const matrix &) const;
-        //const matrix& operator^(const int &) const;
-        matrix& operator-() const;
-        matrix& operator[](const int) const;
-        //matrix& operator()(int, int);
-        //matrix& operator()(char,int);
-        //matrix& operator()(int,char);
-        bool operator==(const matrix &) const;
-        bool operator!=(const matrix &) const;
-
-        
+    //Friend Functions
+    friend matrix& eye(int);
+    friend matrix& ones(int,int);
+    friend double vecNorm(matrix &);
+    friend matrix& householder(matrix &);
 };
 
-matrix& eye(int);
-matrix& ones(int,int);
-float norm(matrix &);
-matrix& householder(matrix &);
+
 
 /*
 Things I want this to do:
