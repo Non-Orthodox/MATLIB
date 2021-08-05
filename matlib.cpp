@@ -14,7 +14,8 @@
 
     matrix::matrix(int height, int width)
     {
-        if((height < 0) || (width < 0)){
+        if((height < 1) || (width < 1)){
+            std::cout << "matrix::matrix(int,int) error: dimensions invalid" << std::endl;
             n = m = 1;
         } else{
             n = height;
@@ -104,7 +105,8 @@
         return *this;
     }
 
-    //matrix& matrix::operator=(const std::string &str);
+    //matrix& matrix::operator=(const std::string &str) TODO
+    //matrix& matrix::operator=(const double) TODO
 
     //Compound Assignment +=
     matrix& matrix::operator+=(const matrix &mat)
@@ -228,24 +230,126 @@
         return *this;
     }
 
+    //Compound Assignment /=
+    //matrix& operator/=(const matrix &mat) TODO
+    matrix& matrix::operator/=(const double &db)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] /= db;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator/=(const float &fl)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] /= (double)fl;
+            }
+        }
+        return *this;
+    }
+    matrix& matrix::operator/=(const int &in)
+    {
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                this->elements[i][j] /= (double)in;
+            }
+        }
+        return *this;
+    }
+
     //Binary Arithmetic +
-    const matrix& matrix::operator+(const matrix &mat) const
+    const matrix matrix::operator+(const matrix &mat) const
     {
         matrix* result = new matrix(*this);
         *result += mat;
         return *result;
     }
+    const matrix matrix::operator+(const double &db) const
+    {
+        matrix* result = new matrix(*this);
+        *result += db;
+        return *result;
+    }
+    const matrix matrix::operator+(const float &fl) const
+    {
+        matrix* result = new matrix(*this);
+        *result += (double)fl;
+        return *result;
+    }
+    const matrix matrix::operator+(const int &in) const
+    {
+        matrix* result = new matrix(*this);
+        *result += (double)in;
+        return *result;
+    }
+    const matrix operator+(const double &db, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result += db;
+        return *result;
+    }
+    const matrix operator+(const float &fl, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result += (double)fl;
+        return *result;
+    }
+    const matrix operator+(const int &in, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result += (double)in;
+        return *result;
+    }
 
     //Binary Arithmetic -
-    const matrix& matrix::operator-(const matrix &mat) const
+    const matrix matrix::operator-(const matrix &mat) const
     {
         matrix* result = new matrix(*this);
         *result -= mat;
         return *result;
     }
+    const matrix matrix::operator-(const double &db) const
+    {
+        matrix* result = new matrix(*this);
+        *result -= db;
+        return *result;
+    }
+    const matrix matrix::operator-(const float &fl) const
+    {
+        matrix* result = new matrix(*this);
+        *result -= (double)fl;
+        return *result;
+    }
+    const matrix matrix::operator-(const int &in) const
+    {
+        matrix* result = new matrix(*this);
+        *result -= (double)in;
+        return *result;
+    }
+    const matrix operator-(const double &db, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result -= db;
+        return *result;
+    }
+    const matrix operator-(const float &fl, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result -= (double)fl;
+        return *result;
+    }
+    const matrix operator-(const int &in, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result -= (double)in;
+        return *result;
+    }
 
     //Binary Arithmetic *
-    const matrix& matrix::operator*(const matrix &mat) const
+    const matrix matrix::operator*(const matrix &mat) const
     {
         if(this->m != mat.n){
             std::cout << "matrix multiplication error: dimensions incompatible" << std::endl;
@@ -263,22 +367,61 @@
         }
         return *result;
     }
-    const matrix& matrix::operator*(const double &db) const
+    const matrix matrix::operator*(const double &db) const
     {
         matrix* result = new matrix(*this);
         *result *= db;
         return *result;
     }
-    const matrix& matrix::operator*(const float &fl) const
+    const matrix matrix::operator*(const float &fl) const
     {
         matrix* result = new matrix(*this);
         *result *= (double)fl;
         return *result;
     }
-    const matrix& matrix::operator*(const int &in) const
+    const matrix matrix::operator*(const int &in) const
     {
         matrix* result = new matrix(*this);
         *result *= (double)in;
+        return *result;
+    }
+    const matrix operator*(const double &db, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result *= db;
+        return *result;
+    }
+    const matrix operator*(const float &fl, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result *= (double)fl;
+        return *result;
+    }
+    const matrix operator*(const int &in, const matrix &mat)
+    {
+        matrix* result = new matrix(mat);
+        *result *= (double)in;
+        return *result;
+    }
+
+    //Binary Arithmetic /
+    //const matrix matrix::operator*(const matrix &mat) const TODO
+    const matrix matrix::operator/(const double &db) const
+    {
+        matrix* result = new matrix(*this);
+        *result /= db;
+        return *result;
+    }
+    const matrix matrix::operator/(const float &fl) const
+    {
+        matrix* result = new matrix(*this);
+        *result /= (double)fl;
+        return *result;
+    }
+    const matrix matrix::operator/(const int &in) const
+    {
+        matrix* result = new matrix(*this);
+        *result /= (double)in;
         return *result;
     }
 
@@ -299,7 +442,7 @@
     {
         matrix* vector = new matrix(this->n,1);
         for(int i = 0; i < n; i++){
-            vector->elements[i][1] = this->elements[i][col];
+            vector->elements[i][0] = this->elements[i][col];
         }
         return *vector;
     }
@@ -355,7 +498,7 @@
     //Set element (r,c) to a specified value val
     void matrix::set(int r, int c, double val)
     {
-        if((r >= n) || (c >= m) || (r < 1) || (c < 1)){
+        if((r >= n) || (c >= m) || (r < 0) || (c < 0)){
             std::cout << "matrix .set error: indices out of bounds" << std::endl;
         } else{
             elements[r][c] = val;
@@ -389,9 +532,9 @@
         matrix* temp = new matrix(rows,cols);
 
         //Copy all relevant elements to new matrix 
-        for(int i = 0; (i < n) && (i < rows); i++)
+        for(int i = 0; (i < n) && (i < temp->n); i++)
         {
-            for(int j = 0; (j < m) && (j < cols); j++)
+            for(int j = 0; (j < m) && (j < temp->m); j++)
             {
                 temp->elements[i][j] = elements[i][j];
             }
@@ -405,11 +548,12 @@
         delete [] elements;
 
         //Set new sizes
-        n = rows;
-        m = cols;
+        n = temp->n;
+        m = temp->m;
         
         //Set elements
         elements = temp->elements;
+        delete temp;
     }
 
     //Returns the transpose of a matrix
@@ -463,15 +607,9 @@
     //Produces an n x n identity matrix, with n as the input
     matrix& eye(int dim)
     {
-        if(dim < 1){
-            matrix* err = new matrix;
-            err->elements[0][0] = 1;
-            return *err;
-        }
-
         matrix* id = new matrix(dim,dim);
         for(int i = 0; i < dim; i++){
-            id->elements[dim][dim] = 1;
+            id->elements[i][i] = 1;
         }
         return *id;
     }
@@ -479,14 +617,9 @@
     //Produces a matrix of ones, with dimensions specified as inputs
     matrix& ones(int rows, int cols)
     {
-        if((rows < 1) || (cols < 1)){
-            matrix* err = new matrix;
-            return *err;
-        }
-
         matrix* ones = new matrix(rows,cols);
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
+        for(int i = 0; i < ones->n; i++){
+            for(int j = 0; j < ones->m; j++){
                 ones->elements[i][j] = 1;
             }
         }
@@ -499,7 +632,8 @@
         double result = 0;
         
         if(mat.m != 1){
-            return 1;
+            std::cout << "vecNorm error: input matrix dimensions invalid" << std::endl;
+            return 0;
         }
 
         for(int i = 0; i < mat.n; i++){
@@ -515,10 +649,14 @@
         matrix* u = new matrix(mat.n,1);
         u->elements[0][0] = vecNorm(mat[0]);
         *u = mat[0] - *u;
-        //*u /= vecNorm(*u);
         
+        double squNorm = 0;
+        for(int i = 0; i < u->n; i++){
+            squNorm += u->elements[i][0] * u->elements[i][0];
+        }
+
         matrix* HH = new matrix;
         *HH = eye(mat.n);
-        *HH -= (*u) * ((*u).T()) * 2;
+        *HH -= (*u) * ((*u).T()) * (2 / squNorm);
         return *HH;
     }
