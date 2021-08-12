@@ -16,9 +16,10 @@ class matrix
     public:
     //Constructors
         matrix();
-        matrix(int);
+        explicit matrix(int); //explicit prevents allowed type mismatch
         matrix(int,int);
         matrix(const matrix &);
+        matrix(matrix &&);
 
     //Destructor
         ~matrix();
@@ -26,6 +27,7 @@ class matrix
 
     //Operator Overloading
         matrix& operator=(const matrix &);
+        matrix& operator=(matrix &&);
         //matrix& operator=(const std::string &);
         //matrix& operator=(const double);
 
@@ -92,19 +94,22 @@ class matrix
 
 
     //Member Functions
-        double at(int, int);
-        int rows();
-        int cols();
+        double at(int, int) const;
+        int rows() const;
+        int cols() const;
         void set(int, int, double);
         matrix size();
-        int size(int);
         void resize(int, int);
         //void resize(int,int,double); //double is default value for new elements
-        matrix T();
+        matrix& T() const;
         void setT();
         //void zeros();
         //void ones();
-        void std_print();
+        void std_print() const;
+        void rswap(int,int);
+        void radd(int,int,double);
+        void rscale(int, double);
+        matrix& inverse() const;
         //vector-wise addition
         //matrix push_back(matrix m)
         //matrix inv()
@@ -134,19 +139,14 @@ Things I want this to do:
 
 matrix:
     operators:
-        * multiplication (scalar and matrix)
-        + addition (scalar and matrix)
-        - subtraction
         / division
         () obtain elements, account for scenarios where you have ':' char
         ^ exponent
-        == logic equal
 
     funtions:
         inverse
         determinate
         rref
-        QR factorize
         cholesky square root
         row swap
         orthogonal matrix

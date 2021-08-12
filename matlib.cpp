@@ -2,12 +2,14 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <utility>
 
 //Constructors
     matrix::matrix()
+        : n(1)
+        , m(1)
+        , elements(new double* [1])
     {
-        n = m = 1;
-        elements = new double* [1];
         elements[0] = new double [1];
         elements[0][0] = 0;
     }
@@ -54,10 +56,9 @@
     }
 
     matrix::matrix(const matrix &mat)
+        : n(mat.n)
+        , m(mat.m)
     {
-        n = mat.n;
-        m = mat.m;
-
         elements = new double* [n];
         for(int i = 0; i < n; i++)
         {
@@ -69,6 +70,22 @@
         }
     }
 
+    matrix::matrix(matrix &&mat)
+        : elements(nullptr)
+        , n(0)
+        , m(0)
+    {
+        n = mat.n;
+        m = mat.m;
+        elements = mat.elements;
+
+        for(int i = 0; i < n; i++){
+            mat.elements[i] = nullptr;
+        }
+        mat.elements = nullptr;
+
+        mat.n = mat.m = 0;
+    }
 
 //Destructor
     matrix::~matrix()
@@ -122,6 +139,28 @@
         }
 
         //Return left object to support operator chaining
+        return *this;
+    }
+
+    matrix& matrix::operator=(matrix &&mat)
+    {
+        if(this != &mat){
+            for(int k = 0; k < n; k++)
+            {
+                delete [] elements[k];
+            }
+            delete [] elements;
+
+            n = mat.n;
+            m = mat.m;
+            elements = mat.elements;
+            
+            for(int i = 0; i < n; i++){
+                mat.elements[i] = nullptr;
+            }
+            mat.elements = nullptr;
+            mat.n = mat.m = 0;
+        }
         return *this;
     }
 
@@ -494,9 +533,9 @@
 //Member Functions
 
     //Returns element (r,c) as a double
-    double matrix::at(int r, int c)
+    double matrix::at(int r, int c) const
     {
-        if((r >= n) || (c >= m) || (r < 1) || (c < 1)){
+        if((r > (n-1)) || (c > (m-1)) || (r < 0) || (c < 0)){
             std::cout << "matrix .at error: indices out of bounds" << std::endl;
             return 0;
         }
@@ -504,13 +543,13 @@
     }
 
     //Returns n
-    int matrix::rows()
+    int matrix::rows() const
     {
         return this->n;
     }
 
     //Returns m
-    int matrix::cols()
+    int matrix::cols() const
     {
         return this->m;
     }
@@ -532,18 +571,6 @@
         siz->elements[0][0] = n;
         siz->elements[0][1] = m;
         return(*siz);
-    }
-
-    //Returns dimension n or m of matrix, depending on if dim is 1 or 2, respectively. Returns 0 otherwise.
-    int matrix::size(int dim)
-    {
-        if(dim == 1){
-            return n;
-        }
-        if(dim == 2){
-            return m;
-        }
-        return 0;
     }
 
     //Resizes the matrix. All indices which are not removed retain their elements. New elements are set to be 0.
@@ -577,7 +604,7 @@
     }
 
     //Returns the transpose of a matrix
-    matrix matrix::T()
+    matrix& matrix::T() const
     {
         matrix* tp = new matrix(m,n);
         for(int i = 0; i < m; i++)
@@ -607,7 +634,7 @@
     }
 
     //Print matrix in console
-    void matrix::std_print()
+    void matrix::std_print() const
     {
         for(int i = 0; i < n; i++)
         {
@@ -619,6 +646,90 @@
             std::cout << "]" << std::endl;
         }
         std::cout << std::endl;
+    }
+
+    //Swaps the information in the two inputted row indices
+    void matrix::rswap(int r1, int r2)
+    {
+        double* temp = new double [n];
+
+        for(int i = 0; i < n; i++){
+            temp[i] = elements[r1][i];
+            elements[r1][i] = elements[r2][i];
+            elements[r2][i] = temp[i];
+        }
+
+        delete [] temp;
+    }
+
+    //Adds scale*r1 to r2
+    void matrix::radd(int r1, int r2, double scale)
+    {
+        for(int i = 0; i < n; i++){
+            elements[r2][i] += scale * elements[r1][i];
+        }
+    }
+
+    //Multiplies row r by scale
+    void matrix::rscale(int r, double scale)
+    {
+        for(int i = 0; i < n; i++){
+            elements[r][i] *= scale;
+        }
+    }
+
+    //Returns inverse of matrix input
+    matrix& matrix::inverse() const
+    {
+        //Step 0: check if matrix is square
+        if(n != m){
+            std::cout << "inverse error: matrix not square" << std::endl;
+            matrix* err = new matrix;
+            return *err;
+        }
+        
+        matrix* inverse = new matrix(eye(n));
+        matrix* copy = new matrix(*this);
+
+        double scale = 1.0;
+        for(int i = 0; i < m; i++){
+            //Make sure that diagonal is nonzero
+            if(copy->elements[i][i] == 0){
+                for(int k = (i+1); k < n; k++){
+                    if(copy->elements[k][i] != 0){
+                        copy->radd(k,i,1.0);
+                        inverse->radd(k,i,1.0);
+                        break;
+                    }
+                }
+                if(copy->elements[i][i] == 0){
+                    std::cout << "inverse error: matrix singular " << std::endl;
+                    matrix* err = new matrix;
+                    return *err;
+                }
+            }
+
+            //Scale current column so that diagonal is 1
+            scale = 1.0/copy->elements[i][i];
+            copy->rscale(i,scale);
+            inverse->rscale(i,scale);
+
+            //Make rest of column 0
+            for(int j = 0; j < n; j++){
+                if((i != j) && (copy->elements[j][i] != 0)){
+                    scale = -1*copy->elements[j][i];
+                    copy->radd(i,j,scale);
+                    inverse->radd(i,j,scale);
+                }
+            }
+            copy->std_print();
+        }
+
+        std::cout << "copy" << std::endl; copy->std_print();
+        std::cout << "inverse" << std::endl; inverse->std_print();
+
+        delete copy;
+        return *inverse;
     }
 
 
@@ -741,5 +852,6 @@
         }
         delete P;
         delete A;
-        return *Q;
+        return (*Q).T();
     }
+

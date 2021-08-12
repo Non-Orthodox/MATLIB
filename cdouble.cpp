@@ -451,31 +451,31 @@
 //Member Functions
 
     //Returns real part
-    double cdouble::re()
+    double cdouble::re() const
     {
         return els[0];
     }
 
     //Return imaginary part
-    double cdouble::im()
+    double cdouble::im() const
     {
         return els[1];
     }
 
     //Returns magnitude
-    double cdouble::mag()
-    {
+    double cdouble::mag() const
+    { 
         return sqrt((els[0] * els[0])+(els[1] * els[1]));
     }
 
     //Returns phase on complex plane
-    double cdouble::phase()
+    double cdouble::phase() const
     {
         return atan2(els[1],els[0]);
     }
 
     //Returns the complex inverse
-    cdouble cdouble::inv()
+    cdouble cdouble::inv() const
     {
         cdouble inverse;
         double factor = (1)/((els[0] * els[0])+(els[1] * els[1]));
@@ -492,7 +492,7 @@
     }
 
     //Print the complex number to console in rectangular form
-    void cdouble::rect_print()
+    void cdouble::rect_print() const
     {
         if(els[1] >= 0)
             std::cout << els[0] << "+" << els[1] << "i" << std::endl << std::endl;
@@ -501,7 +501,7 @@
     }
 
     //Print the complex number to console in polar form
-    void cdouble::polar_print()
+    void cdouble::polar_print() const
     {
         std::cout << this->mag() << " * exp(" << this->phase() << "i)" << std::endl << std::endl;
     }

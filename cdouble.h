@@ -9,7 +9,7 @@ class cdouble
     public:
         //Constructors
         cdouble();
-        cdouble(double);
+        explicit cdouble(double);
         cdouble(double,double);
         cdouble(const cdouble &);
 
@@ -19,14 +19,14 @@ class cdouble
 
 
         //Member Functions
-        double re();
-        double im();
-        double mag();
-        double phase();
-        cdouble inv();
+        double re() const;
+        double im() const;
+        double mag() const;
+        double phase() const;
+        cdouble inv() const;
         void set(double,double);
-        void rect_print();
-        void polar_print();
+        void rect_print() const;
+        void polar_print() const;
 
 
         //Operator Overloading
