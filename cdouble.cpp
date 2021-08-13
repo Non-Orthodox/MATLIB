@@ -178,18 +178,28 @@
             this->set(1,0);
             return *this;
         }
-        cdouble result = *this;
+
+        int abs = exp;
         if(exp < 0){
-            for(int i = 1; i < (-1*exp); i++){
-                result *= *this; 
-            }
-            *this = result.inv();
-        } else{
-            for(int i = 1; i < exp; i++){
-                 result *= *this; 
-            }
-            *this = result;
+            abs = -exp;
         }
+        
+        cdouble store(*this);
+        cdouble result(1,0);
+
+        while(abs > 0){
+            if(abs%2){
+                result *= store;
+            }
+            store *= store;
+            abs = abs/2;
+        }
+
+        if(exp < 0){
+            result = result.inv();
+        }
+
+        *this = result;
         return *this;
     }
 
@@ -378,9 +388,9 @@
     //Binary integer exponoentiation ^
     const cdouble cdouble::operator^(const int &exp) const
     {
-        cdouble* result = new cdouble(*this);
-        *result ^= exp;
-        return *result;
+        cdouble result = *this;
+        result ^= exp;
+        return result;
     }
     const cdouble operator^(const double &db, const cdouble &cdl)
     {

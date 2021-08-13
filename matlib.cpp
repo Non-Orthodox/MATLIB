@@ -328,6 +328,13 @@
         return *this;
     }
 
+    //Compound Assignment ^=
+    matrix& matrix::operator^=(const int &exp)
+    {
+        *this = *this ^ exp;
+        return *this;
+    }
+
     //Binary Arithmetic +
     const matrix matrix::operator+(const matrix &mat) const
     {
@@ -549,9 +556,13 @@
     matrix& matrix::operator[](const int col) const
     {
         matrix* vector = new matrix(this->n,1);
-        for(int i = 0; i < n; i++){
-            vector->elements[i][0] = this->elements[i][col];
-        }
+        
+        vector->elements = &this->elements[col];
+        vector->elements[0] = this->elements[col];
+
+        // for(int i = 0; i < n; i++){
+        //     vector->elements[i][0] = this->elements[i][col];
+        // }
         return *vector;
     }
 
@@ -691,6 +702,21 @@
             for(int j = 0; j < m; j++)
             {
                 std::cout << elements[i][j] << " ";
+            }
+            std::cout << "]" << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    //Print matrix element addresses
+    void matrix::adr_print() const
+    {
+        for(int i = 0; i < n; i++)
+        {
+            std::cout << "[ ";
+            for(int j = 0; j < m; j++)
+            {
+                std::cout << &elements[i][j] << " ";
             }
             std::cout << "]" << std::endl;
         }

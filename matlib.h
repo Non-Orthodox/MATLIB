@@ -50,6 +50,8 @@ class matrix
         matrix& operator/=(const double &);
         matrix& operator/=(const float &);
         matrix& operator/=(const int &);
+
+        matrix& operator^=(const int &);
         
         const matrix operator+(const matrix &) const;
         const matrix operator+(const double &) const;
@@ -106,6 +108,7 @@ class matrix
         //void zeros();
         //void ones();
         void std_print() const;
+        void adr_print() const;
         void rswap(int,int);
         void radd(int,int,double);
         void rscale(int, double);
