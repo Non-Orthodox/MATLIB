@@ -46,7 +46,7 @@ class matrix
         matrix& operator*=(const float &);
         matrix& operator*=(const int &);
         
-        //matrix& operator/=(const matrix &);
+        matrix& operator/=(const matrix &);
         matrix& operator/=(const double &);
         matrix& operator/=(const float &);
         matrix& operator/=(const int &);
@@ -75,12 +75,12 @@ class matrix
         friend const matrix operator*(const float &, const matrix &);
         friend const matrix operator*(const int &, const matrix &);
         
-        //const matrix& operator/(const matrix &) const;
+        const matrix operator/(const matrix &) const;
         const matrix operator/(const double &) const;
         const matrix operator/(const float &) const;
         const matrix operator/(const int &) const;
         
-        //const matrix& operator^(const int &) const;
+        const matrix& operator^(const int &) const;
         
         matrix& operator-() const;
         matrix& operator[](const int) const;
@@ -109,7 +109,7 @@ class matrix
         void rswap(int,int);
         void radd(int,int,double);
         void rscale(int, double);
-        matrix& inverse() const;
+        matrix& inv() const;
         //vector-wise addition
         //matrix push_back(matrix m)
         //matrix inv()
@@ -128,11 +128,14 @@ class matrix
 
 matrix& eye(int);
 matrix& ones(int,int);
+matrix& zeros(int, int);
+matrix& zeros(int);
 double vecNorm(matrix &);
 matrix& householder(matrix &);
 matrix& chipFront(matrix &);
 matrix& pushFront(matrix &);
 matrix& QR(matrix &);
+
 
 /*
 Things I want this to do:

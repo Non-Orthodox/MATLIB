@@ -173,7 +173,7 @@
         //For now, both matrices must be the same size, otherwise do not change the matrix
         if((this->n != mat.n) || (this->m != mat.m)){
             std::cout << "matrix addition error: dimensions incompatible" << std::endl << std::endl;
-            return *this;
+            return zeros(1);
         } 
 
         for(int i = 0; i < n; i++){
@@ -217,7 +217,7 @@
         //For now, both matrices must be the same size, otherwise do not change the matrix
         if((this->n != mat.n) || (this->m != mat.m)){
             std::cout << "matrix subtraction error: dimensions incompatible" << std::endl << std::endl;
-            return *this;
+            return zeros(1);
         } 
 
         for(int i = 0; i < n; i++){
@@ -290,7 +290,16 @@
     }
 
     //Compound Assignment /=
-    //matrix& operator/=(const matrix &mat) TODO
+    matrix& matrix::operator/=(const matrix &mat)
+    {
+        if(this->m != mat.n){
+            std::cout << "matrix operator/ error: dimensions incompatible" << std::endl;
+            return zeros(1);
+        }
+
+        *this *= mat.inv();
+        return *this;
+    }
     matrix& matrix::operator/=(const double &db)
     {
         for(int i = 0; i < n; i++){
@@ -411,8 +420,8 @@
     const matrix matrix::operator*(const matrix &mat) const
     {
         if(this->m != mat.n){
-            std::cout << "matrix multiplication error: dimensions incompatible" << std::endl;
-            return *this;
+            std::cout << "matrix operator* error: dimensions incompatible" << std::endl;
+            return zeros(1);
         }
 
         matrix* result = new matrix(this->n,mat.m);
@@ -464,7 +473,12 @@
     }
 
     //Binary Arithmetic /
-    //const matrix matrix::operator*(const matrix &mat) const TODO
+    const matrix matrix::operator/(const matrix &mat) const
+    {
+        matrix* result = new matrix(*this);
+        *result /= mat;
+        return *result;
+    }
     const matrix matrix::operator/(const double &db) const
     {
         matrix* result = new matrix(*this);
@@ -481,6 +495,41 @@
     {
         matrix* result = new matrix(*this);
         *result /= (double)in;
+        return *result;
+    }
+
+    //Operator ^ integer exponentiation
+    const matrix& matrix::operator^(const int &exp) const
+    {
+        if(n != m){
+            std::cout << "matrix operator^ error: matrix not square" << std::endl;
+            return zeros(1);
+        }
+
+        if(exp == 0){
+            return eye(n);
+        }
+
+        matrix* result = new matrix(eye(n));
+        matrix* store = new matrix(*this);
+
+        int abs = exp;
+        if(exp < 0){
+            abs = -exp;
+        }
+
+        while(abs > 0){
+            if(abs%2){
+                *result = *result * *store;
+            }
+            *store = *store * *store;
+            abs = abs / 2;
+        }
+
+        if(exp < 0){
+            *result = result->inv();
+        }
+
         return *result;
     }
 
@@ -679,7 +728,7 @@
     }
 
     //Returns inverse of matrix input
-    matrix& matrix::inverse() const
+    matrix& matrix::inv() const
     {
         //Step 0: check if matrix is square
         if(n != m){
@@ -722,11 +771,7 @@
                     inverse->radd(i,j,scale);
                 }
             }
-            copy->std_print();
         }
-
-        std::cout << "copy" << std::endl; copy->std_print();
-        std::cout << "inverse" << std::endl; inverse->std_print();
 
         delete copy;
         return *inverse;
@@ -755,6 +800,20 @@
             }
         }
         return *ones;
+    }
+
+    //Produces matrix of zeros with the specified dimensions
+    matrix& zeros(int rows, int cols)
+    {
+        matrix* result = new matrix(rows,cols);
+        return *result;
+    }
+
+    //Produces square matrix of zeros with specified dimension
+    matrix& zeros(int dim)
+    {
+        matrix* result = new matrix(dim);
+        return *result;
     }
 
     //Finds the magnitude of a vector (so the matrix must be n x 1)
