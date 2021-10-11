@@ -87,6 +87,18 @@
         mat.n = mat.m = 0;
     }
 
+    //Experimental
+    // matrix::matrix(const matrix &mat, int col)
+    //     : n(mat.n)
+    //     , m(1)
+    // {
+    //     elements = new double* [n];
+    //     for(int i = 0; i < n; i++){
+    //         elements[i] = new double [1];
+    //         elements[i] = &(mat.elements[i][col]);
+    //     }
+    // }
+
 //Destructor
     matrix::~matrix()
     {
@@ -164,7 +176,13 @@
         return *this;
     }
 
-    //matrix& matrix::operator=(const std::string &str) TODO
+    //Sets matrix elements according to syntax "[a11 a12; a21 a22]"
+    matrix& matrix::operator=(const std::string &&str)
+    {
+        //TODO
+        return *this;
+    }
+
     //matrix& matrix::operator=(const double) TODO
 
     //Compound Assignment +=
@@ -555,14 +573,12 @@
     //Brackets [col] returns the column given by col
     matrix& matrix::operator[](const int col) const
     {
-        matrix* vector = new matrix(this->n,1);
-        
-        vector->elements = &this->elements[col];
-        vector->elements[0] = this->elements[col];
+        matrix* vector = new matrix(n,1);
 
-        // for(int i = 0; i < n; i++){
-        //     vector->elements[i][0] = this->elements[i][col];
-        // }
+        for(int i = 0; i < n; i++){
+            vector->elements[i][0] = this->elements[i][col];
+        }
+
         return *vector;
     }
 
@@ -711,6 +727,10 @@
     //Print matrix element addresses
     void matrix::adr_print() const
     {
+        std::cout << elements << std::endl;
+        for(int k = 0; k < n; k++){
+            std::cout << elements[k] << std::endl;
+        }
         for(int i = 0; i < n; i++)
         {
             std::cout << "[ ";

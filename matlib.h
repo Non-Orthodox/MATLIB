@@ -20,6 +20,7 @@ class matrix
         matrix(int,int);
         matrix(const matrix &);
         matrix(matrix &&);
+        //matrix(const matrix &, int);
 
     //Destructor
         ~matrix();
@@ -28,7 +29,7 @@ class matrix
     //Operator Overloading
         matrix& operator=(const matrix &);
         matrix& operator=(matrix &&);
-        //matrix& operator=(const std::string &);
+        matrix& operator=(const std::string &&);
         //matrix& operator=(const double);
 
         matrix& operator+=(const matrix &);
@@ -115,7 +116,6 @@ class matrix
         matrix& inv() const;
         //vector-wise addition
         //matrix push_back(matrix m)
-        //matrix inv()
         //eig()
 
 
